@@ -382,7 +382,8 @@ hr {
 """, unsafe_allow_html=True)
 
 # ── Constants ──────────────────────────────────────────────────────────────────
-API_URL = "http://127.0.0.1:8000/agent"
+BASE_URL = st.secrets.get("BASE_URL", "http://127.0.0.1:8000")
+API_URL = f"{BASE_URL}/agent"
 
 SKILLS_OPTIONS = [
     "Python", "SQL", "Machine Learning", "Deep Learning", "Statistics",
@@ -454,7 +455,7 @@ with st.sidebar:
 
     # Backend status
     try:
-        health = requests.get("http://127.0.0.1:8000/health", timeout=3)
+        health = requests.get(f"{BASE_URL}/health", timeout=3)
         if health.status_code == 200:
             data = health.json()
             st.markdown(f"""
