@@ -12,18 +12,18 @@ logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
                     datefmt="%Y-%m-%d %H:%M:%S",)
 logger=logging.getLogger(__name__)
-setting=get_settings()
+settings=get_settings()
 
 @asynccontextmanager
 async def lifespan(app : FastAPI):
-    logger.info(f"Starting up {setting.app_name}...")
-    logger.info(f"using model:{setting.groq_model}")
-    logger.info(f"Debug mode: {setting.debug}")
+    logger.info(f"Starting up {settings.app_name}...")
+    logger.info(f"using model:{settings.groq_model}")
+    logger.info(f"Debug mode: {settings.debug}")
     yield
-    logger.info(f"Shutting down {setting.app_name}...")
+    logger.info(f"Shutting down {settings.app_name}...")
 
 app= FastAPI(
-     title=setting.app_name,
+     title=settings.app_name,
      version="1.0.0",
      description="AI Agent that helps with carreer coaching tasks",
      lifespan=lifespan,
@@ -55,7 +55,9 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
-    return HealthResponse(status="ok", model=setting.groq_model)
+    return HealthResponse(status="healthy",
+    version=settings.app_version,
+    model=settings.groq_model,)
 
 @app.post("/agent", response_model=AgentResponse)
 async def run_agent(request: AgentRequest):

@@ -12,7 +12,7 @@ from app.models import (
 from app.tools import review_resume,run_mock_interview,generate_roadmap
 
 logger=logging.getLogger(__name__)
-setting=get_settings()
+settings=get_settings()
 
 class CareerCoachAgent:
     """
@@ -44,7 +44,7 @@ class CareerCoachAgent:
             tool=AgentTool.RESUME_REVIEW,
             result=result,
             tokens_used=tokens,
-            model=setting.groq_model
+            model=settings.groq_model
         )
     def _handle_mock_interview(self, payload: dict) -> AgentResponse:
         try:
@@ -62,7 +62,7 @@ class CareerCoachAgent:
             tool=AgentTool.MOCK_INTERVIEW,
             result=result,
             tokens_used=tokens,
-            model=setting.groq_model,
+            model=settings.groq_model,
         )
 
     def _handle_learning_roadmap(self, payload: dict) -> AgentResponse:
@@ -81,7 +81,7 @@ class CareerCoachAgent:
             tool=AgentTool.LEARNING_ROADMAP,
             result=result,
             tokens_used=tokens,
-            model=setting.groq_model,
+            model=settings.groq_model,
         )
 
 agent=CareerCoachAgent()    

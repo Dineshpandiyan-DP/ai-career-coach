@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     app_name:str="AI Career Coach"
     debug:bool=True
     port:int=8000
+    app_version: str = "1.0.0"
 @lru_cache()
 def get_settings()->Settings:
     return Settings()
